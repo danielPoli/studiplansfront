@@ -7,6 +7,9 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import Link from '@material-ui/core/Link';
 import { Link as routerLink, Route } from 'react-router-dom';
+import { MenuList, MenuItem } from '@material-ui/core';
+
+
 
 export const mainListItems = (
   <div>
@@ -34,13 +37,12 @@ export const mainListItems = (
       <ListItemText primary="Reports" />
       </Link>
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-
       <ListItemText primary="Integrations" />
-
     </ListItem>
   </div>
 );

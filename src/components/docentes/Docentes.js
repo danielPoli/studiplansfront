@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MuiPaper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
-import { listAllDocentes } from './actions';
+import { listAllDocentes, obtenerDocente } from './actions';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import CrearDocente from './CrearDocente';
@@ -43,10 +43,14 @@ class Docentes extends Component {
 
   }
 
+  handledClicEdit = (id)=>{
+    const { docente } = this.props;
+    console.log("docenteE",id);
+    docente(id);
+  }
+
   constructor(props) {
     super(props);
-
-
   }
 
   render() {
@@ -82,7 +86,7 @@ class Docentes extends Component {
                   <TableCell align="left">{docente.tituloMasAlto}</TableCell>
                   <TableCell align="left">{docente.numeroDocumento}</TableCell>
                   <TableCell>
-                  <IconButton aria-label="Edit" component='a' >
+                  <IconButton aria-label="Edit" component='a' onClick={()=>this.handledClicEdit(docente.idDocente)}>
                     <EditIcon />
                   </IconButton>
                   </TableCell>
@@ -101,6 +105,9 @@ const mapDispatchToProps = dispatch => {
   return {
     listDocente: () => {
       dispatch(listAllDocentes());
+    },
+    docente:(id)=>{
+      dispatch(obtenerDocente(id));
     }
   };
 };

@@ -1,3 +1,5 @@
 export const ADD_DOCENTE = 'ADD_DOCENTE';
 export const LIST_DOCENTE = 'LIST_DOCENTE';
 export const OPEN_MODAL_DOCENTE = 'OPEN_MODAL_DOCENTE'; 
+export const ADD_MATERIAL = 'ADD_MATERIAL';
+export const OBTENER_DOCENTE = 'OBTENER_DOCENTE';

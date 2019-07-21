@@ -27,7 +27,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import EditIcon from '@material-ui/icons/Edit';
 import { saveDocente } from './actions';
 import { listAllTipoDoc } from '../administracion/actions';
-import DenseTable from './AddMaterial';
+import ListMaterial from './ListMaterial';
 
 
 
@@ -133,8 +133,8 @@ class CrearDocente extends Component {
         segundoApellido: '',
         fechaVinculacion: '',
         correoInstitucional: '',
-        correoPersonal:'',
-        tituloMasAlto:'',
+        correoPersonal: '',
+        tituloMasAlto: '',
     };
 
 
@@ -155,11 +155,13 @@ class CrearDocente extends Component {
         });
     };
 
-    
-    
+
+
     handleSubmit = e => {
-        const { addDocentes } = this.props
+        const { addDocentes, listMateria } = this.props
         e.preventDefault();
+        debugger
+        console.log("listMateriaCreD", listMateria);
         const jsonDocente = {
             "tipoDocumento": {
                 "idTipoDocumento": this.state.tipoDocumento,
@@ -172,19 +174,21 @@ class CrearDocente extends Component {
             "correoInstitucional": this.state.correoInstitucional,
             "correoPersonal": this.state.correoPersonal,
             "tituloMasAlto": this.state.tituloMasAlto,
-            "materialDocenteList": []
+            "materialDocenteList": listMateria
         }
+        console.log("jsonDocente", jsonDocente);
         addDocentes(jsonDocente);
+        this.handleClose();
     }
 
-    componentDidMount(){
-        const {listTipoDocs} = this.props;
+    componentDidMount() {
+        const { listTipoDocs } = this.props;
         listTipoDocs();
     }
 
     render() {
-        const {docs} = this.props
-        const arrayDocs = docs.docs == undefined ? []: docs.docs
+        const { docs } = this.props
+        const arrayDocs = docs.docs == undefined ? [] : docs.docs
         return (
             <div>
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
@@ -208,35 +212,26 @@ class CrearDocente extends Component {
                                 <Paper>
                                     <Grid item xs={12}>
                                         <SelectText
-                                        id="outlined-select-currency"
-                                        select
-                                        label="Tipo de documento"
-                                        name="tipoDocumento"
-                                        value={this.state.tipoDocumento}
-                                        onChange={this.handleChange}                                        
-                                        margin="dense"
-                                        variant="outlined"
-                                    >
-                                        {
-                                            arrayDocs.map(d =>(
-                                                
-
-                                                <MenuItem key={d.idTipoDocumento} value={d.idTipoDocumento}>
-                                                    {d.nombreTipoDocumento}
-                                                    </MenuItem>
-                                                
-                                                ))
-                                        }
-                                    </SelectText>
-                                        {/* <TextField
-                                            id="outlined-name"
+                                            id="outlined-select-currency"
+                                            select
                                             label="Tipo de documento"
-                                            margin="dense"
                                             name="tipoDocumento"
-                                            variant="outlined"
                                             value={this.state.tipoDocumento}
                                             onChange={this.handleChange}
-                                        /> */}
+                                            margin="dense"
+                                            variant="outlined"
+                                        >
+                                            {
+                                                arrayDocs.map(d => (
+
+
+                                                    <MenuItem key={d.idTipoDocumento} value={d.idTipoDocumento}>
+                                                        {d.nombreTipoDocumento}
+                                                    </MenuItem>
+
+                                                ))
+                                            }
+                                        </SelectText>
                                         <TextField
                                             id="outlined-name"
                                             label="Numero de documento"
@@ -319,7 +314,9 @@ class CrearDocente extends Component {
                                         />
                                     </Grid>
                                 </Paper>
-                                <DenseTable/>
+                                <Grid item xs={12}>
+                                    <ListMaterial />
+                                </Grid>
                             </Grid>
                         </DialogContent>
                         <DialogActions>
@@ -342,15 +339,17 @@ const mapDispatchToProps = dispatch => {
         addDocentes: jsonDocente => {
             dispatch(saveDocente(jsonDocente));
         },
-        listTipoDocs:()=>{
+        listTipoDocs: () => {
             dispatch(listAllTipoDoc());
         }
     };
 };
 
-const mapStateToProps = state =>{
-    return{
-        docs: state.tipoDocs
+const mapStateToProps = state => {
+    console.log('state', state)
+    return {
+        docs: state.tipoDocs,
+        listMateria: state.docentes.listMaterial
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CrearDocente);
