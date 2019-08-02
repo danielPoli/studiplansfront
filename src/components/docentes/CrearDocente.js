@@ -16,16 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MuiTable from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import MuiFormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import EditIcon from '@material-ui/icons/Edit';
-import { saveDocente } from './actions';
+import { saveDocente, openModal } from './actions';
 import { listAllTipoDoc } from '../administracion/actions';
 import ListMaterial from './ListMaterial';
 
@@ -104,11 +96,6 @@ const Paper = withStyles(theme => ({
     }
 }))(MuiPaper);
 
-const Table = withStyles(() => ({
-    table: {
-        minWidth: 650,
-    },
-}))(MuiTable);
 
 const SelectText = withStyles(() => ({
     root: {
@@ -137,16 +124,30 @@ class CrearDocente extends Component {
         tituloMasAlto: '',
     };
 
+    limpiarCampos = () => {
+        this.setState({
+            tipoDocumento: '',
+            numeroDocumento: '',
+            nombre: '',
+            primerApellido: '',
+            segundoApellido: '',
+            fechaVinculacion: '',
+            correoInstitucional: '',
+            correoPersonal: '',
+            tituloMasAlto: '',
+        })
+    }
 
 
     handleClickOpen = () => {
-        this.setState({
-            open: true,
-        });
+        const { openModal } = this.props
+        openModal(true);
     };
 
     handleClose = () => {
-        this.setState({ open: false });
+        const { openModal } = this.props
+        this.limpiarCampos();
+        openModal(false);
     };
 
     handleChange = e => {
@@ -157,26 +158,27 @@ class CrearDocente extends Component {
 
 
 
+
     handleSubmit = e => {
-        const { addDocentes, listMateria } = this.props
+        const { addDocentes, listMateria, docente } = this.props
         e.preventDefault();
         debugger
-        console.log("listMateriaCreD", listMateria);
         const jsonDocente = {
+            "idDocente": docente != undefined && docente != null ? docente.idDocente : '',
             "tipoDocumento": {
-                "idTipoDocumento": this.state.tipoDocumento,
+                "idTipoDocumento": this.state.tipoDocumento == '' && docente.tipoDocumento != undefined && docente.tipoDocumento != null ? docente.tipoDocumento.idTipoDocumento : this.state.tipoDocumento,
             },
-            "numeroDocumento": this.state.numeroDocumento,
-            "nombre": this.state.nombre,
-            "primerApellido": this.state.primerApellido,
-            "segundoApellido": this.state.segundoApellido,
-            "fechaVinculacion": this.state.fechaVinculacion,
-            "correoInstitucional": this.state.correoInstitucional,
-            "correoPersonal": this.state.correoPersonal,
-            "tituloMasAlto": this.state.tituloMasAlto,
-            "materialDocenteList": listMateria
+            "numeroDocumento": this.state.numeroDocumento == '' && docente.numeroDocumento != undefined && docente.numeroDocumento != null ? docente.numeroDocumento : this.state.numeroDocumento,
+            "nombre": this.state.nombre == '' && docente.nombre != undefined && docente.nombre != null ? docente.nombre : this.state.nombre,
+            "primerApellido": this.state.primerApellido == '' && docente.primerApellido != undefined && docente.primerApellido != null ? docente.primerApellido : this.state.primerApellido,
+            "segundoApellido": this.state.segundoApellido == '' && docente.segundoApellido != undefined && docente.segundoApellido != null ? docente.segundoApellido : this.state.segundoApellido,
+            "fechaVinculacion": this.state.fechaVinculacion == '' && docente.fechaVinculacion != undefined && docente.fechaVinculacion != null ? docente.fechaVinculacion : this.state.fechaVinculacion,
+            "correoInstitucional": this.state.correoInstitucional == '' && docente.correoInstitucional != undefined && docente.correoInstitucional != null ? docente.correoInstitucional : this.state.correoInstitucional,
+            "correoPersonal": this.state.correoPersonal == '' && docente.correoPersonal != undefined && docente.correoPersonal != null ? docente.correoPersonal : this.state.correoPersonal,
+            "tituloMasAlto": this.state.tituloMasAlto == '' && docente.tituloMasAlto != undefined && docente.tituloMasAlto != null ? docente.tituloMasAlto : this.state.tituloMasAlto,
+            "materialDocenteList": docente.materialDocenteList != undefined && docente.materialDocenteList != null ? docente.materialDocenteList : [],
         }
-        console.log("jsonDocente", jsonDocente);
+        console.log("jsonDocente",jsonDocente);
         addDocentes(jsonDocente);
         this.handleClose();
     }
@@ -186,9 +188,20 @@ class CrearDocente extends Component {
         listTipoDocs();
     }
 
+
     render() {
-        const { docs } = this.props
+        const { docs, open, docente } = this.props
         const arrayDocs = docs.docs == undefined ? [] : docs.docs
+        let tipoDocumento = this.state.tipoDocumento == '' && docente.tipoDocumento != undefined && docente.tipoDocumento != null ? docente.tipoDocumento.idTipoDocumento : this.state.tipoDocumento;
+        let numeroDocumento = this.state.numeroDocumento == '' && docente.numeroDocumento != undefined && docente.numeroDocumento != null ? docente.numeroDocumento : this.state.numeroDocumento;
+        let nombre = this.state.nombre == '' && docente.nombre != undefined && docente.nombre != null ? docente.nombre : this.state.nombre;
+        let primerApellido = this.state.primerApellido == '' && docente.primerApellido != undefined && docente.primerApellido != null ? docente.primerApellido : this.state.primerApellido;
+        let segundoApellido = this.state.segundoApellido == '' && docente.segundoApellido != undefined && docente.segundoApellido != null ? docente.segundoApellido : this.state.segundoApellido;
+        let fechaVinculacion = this.state.fechaVinculacion == '' && docente.fechaVinculacion != undefined && docente.fechaVinculacion != null ? docente.fechaVinculacion : this.state.fechaVinculacion;
+        let correoInstitucional = this.state.correoInstitucional == '' && docente.correoInstitucional != undefined && docente.correoInstitucional != null ? docente.correoInstitucional : this.state.correoInstitucional;
+        let correoPersonal = this.state.correoPersonal == '' && docente.correoPersonal != undefined && docente.correoPersonal != null ? docente.correoPersonal : this.state.correoPersonal;
+        let tituloMasAlto = this.state.tituloMasAlto == '' && docente.tituloMasAlto != undefined && docente.tituloMasAlto != null ? docente.tituloMasAlto : this.state.tituloMasAlto;
+        let material = docente.materialDocenteList != undefined && docente.materialDocenteList != null ? docente.materialDocenteList : [];
         return (
             <div>
                 <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}>
@@ -197,7 +210,7 @@ class CrearDocente extends Component {
                 <Dialog
                     onClose={this.handleClose}
                     aria-labelledby="customized-dialog-title"
-                    open={this.state.open}
+                    open={open}
                     fullWidth
                     maxWidth={'md'}
                     scroll={'body'}
@@ -216,7 +229,7 @@ class CrearDocente extends Component {
                                             select
                                             label="Tipo de documento"
                                             name="tipoDocumento"
-                                            value={this.state.tipoDocumento}
+                                            value={tipoDocumento}
                                             onChange={this.handleChange}
                                             margin="dense"
                                             variant="outlined"
@@ -238,7 +251,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="numeroDocumento"
-                                            value={this.state.numeroDocumento}
+                                            value={numeroDocumento}
                                             onChange={this.handleChange}
                                         />
                                         <TextField
@@ -247,7 +260,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="nombre"
-                                            value={this.state.nombre}
+                                            value={nombre}
                                             onChange={this.handleChange}
                                         />
                                     </Grid>
@@ -258,7 +271,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="primerApellido"
-                                            value={this.state.primerApellido}
+                                            value={primerApellido}
                                             onChange={this.handleChange}
                                         />
                                         <TextField
@@ -267,7 +280,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="segundoApellido"
-                                            value={this.state.segundoApellido}
+                                            value={segundoApellido}
                                             onChange={this.handleChange}
                                         />
                                         <SelectDate
@@ -277,7 +290,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="fechaVinculacion"
-                                            value={this.state.fechaVinculacion}
+                                            value={fechaVinculacion}
                                             onChange={this.handleChange}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -291,7 +304,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="correoInstitucional"
-                                            value={this.state.correoInstitucional}
+                                            value={correoInstitucional}
                                             onChange={this.handleChange}
                                         />
                                         <TextField
@@ -300,7 +313,7 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="correoPersonal"
-                                            value={this.state.correoPersonal}
+                                            value={correoPersonal}
                                             onChange={this.handleChange}
                                         />
                                         <TextField
@@ -309,13 +322,13 @@ class CrearDocente extends Component {
                                             margin="dense"
                                             variant="outlined"
                                             name="tituloMasAlto"
-                                            value={this.state.tituloMasAlto}
+                                            value={tituloMasAlto}
                                             onChange={this.handleChange}
                                         />
                                     </Grid>
                                 </Paper>
                                 <Grid item xs={12}>
-                                    <ListMaterial />
+                                    <ListMaterial materialActualizar={material} />
                                 </Grid>
                             </Grid>
                         </DialogContent>
@@ -341,15 +354,20 @@ const mapDispatchToProps = dispatch => {
         },
         listTipoDocs: () => {
             dispatch(listAllTipoDoc());
+        },
+        openModal: (open) => {
+            dispatch(openModal(open));
         }
     };
 };
 
 const mapStateToProps = state => {
-    console.log('state', state)
+    console.log("state", state);
     return {
         docs: state.tipoDocs,
-        listMateria: state.docentes.listMaterial
+        listMateria: state.docentes.listMaterial,
+        docente: state.docentes.docente,
+        open: state.docentes.open
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CrearDocente);

@@ -1,9 +1,8 @@
-import { ADD_TIPODOC, LIST_TIPODOC } from './types';
+import { ADD_TIPODOC, LIST_TIPODOC, ADD_FACULTAD } from './types';
 import axios from 'axios';
 import { API_URL } from '../../../constantsGlobal';
 
 export const saveTipoDoc = ({ nombreTipoDoc }) => {
-
     let json = {
         idTipoDocumento:null,
         nombreTipoDocumento: nombreTipoDoc
@@ -18,7 +17,6 @@ export const saveTipoDoc = ({ nombreTipoDoc }) => {
             });
     };
 };
-
 export const saveTipoDocSuccess = (data) => {
     return {
         type: ADD_TIPODOC,
@@ -33,8 +31,7 @@ export const listTipoDoc = (tipoDocs) => {
         type: LIST_TIPODOC,
         tipoDocs
     }
-}
-
+};
 export const listAllTipoDoc = () => {
     return (dispatch) => {
         return axios.get(`${API_URL}/tipodocumento/tipodocumentoList`)
@@ -45,4 +42,23 @@ export const listAllTipoDoc = () => {
                 throw (error);
             });
     };
+};
+
+export const saveFacultad = (json)=>{
+    return(dispatch) =>{
+        return axios.post(`${API_URL}/facultades/saveFacultad`, json)
+        .then(Response =>{
+            dispatch(saveFacultadSuccess(Response.data));
+        })
+        .catch(error =>{
+            throw(error);
+        })
+    }
+}
+
+export const saveFacultadSuccess = (data)=>{
+    return {
+        type: ADD_FACULTAD,
+        payload: data
+    }
 }

@@ -1,0 +1,1 @@
+export const ALL_COHORTE = 'ALL_COHORTE';

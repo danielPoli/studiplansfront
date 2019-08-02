@@ -5,9 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MuiPaper from '@material-ui/core/Paper';
-import AddMaterial from './AddMaterialDialog';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { listAllCohorte } from './actions';
 
 const Paper = withStyles(theme => ({
     root: {
@@ -18,64 +18,68 @@ const Paper = withStyles(theme => ({
         width: '100%',
         overflowX: 'auto',
         marginBottom: theme.spacing(2),
-  
+
     }
-  }))(MuiPaper);
-  
-  const Table = withStyles(()=>({
+}))(MuiPaper);
+
+const Table = withStyles(() => ({
     table: {
         minWidth: 650,
-      },
-  }))(MuiTable);
+    },
+}))(MuiTable);
 
-class ListMaterial extends Component {
+class ListCohorte extends Component {
 
-    constructor(props){
-        super(props)
+    
+    componentDidMount(){
+        const {cohortes} = this.props;
+        cohortes();
     }
 
     render() {
-        const { materialDocente, materialActualizar } = this.props;
+        const { listCohortes } = this.props;
         
-        let materialList = materialDocente.listMaterial  != '' ? materialDocente.listMaterial: materialActualizar;
         return (
-            <div >
-                <AddMaterial />
+            <React.Fragment>
+                {/* <AddContenido /> */}
                 <Paper >
                     <Table >
                         <TableHead>
                             <TableRow>
-                                <TableCell>Descripcion</TableCell>
-                                <TableCell >Link material</TableCell>
+                                <TableCell>Fecha inicio</TableCell>
+                                <TableCell >fecha fin</TableCell>
+                                <TableCell >publicado</TableCell>
+                                <TableCell >Accions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {materialList.map(m => (
-                                <TableRow key={m.descripcion}>
+                            {listCohortes.map(c => (
+                                <TableRow key={c.idCohorte}>
                                     <TableCell component="th" scope="row">
-                                        {m.descripcion}
+                                        {c.fechaInicioCohorte}
                                     </TableCell>
-                                    <TableCell >{m.link_material_adicional}</TableCell>
+                                    <TableCell >{c.fechaFinCohorte}</TableCell>
+                                    <TableCell >{c.publicado}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper>
-            </div>
+            </React.Fragment>
         )
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-
-    };
-};
-
 const mapStateToProps = state => {
     return {
-        materialDocente: state.docentes,
+        listCohortes: state.cohorte.listCohorte,
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListMaterial);
+const mapDispatchToProps = dispatch => {
+    return{
+        cohortes:()=>{
+            dispatch(listAllCohorte());
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ListCohorte);

@@ -25,24 +25,17 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <Link component={routerLink} to='/tipodocumento'>
-        <ListItemText primary="Customers" />
+      <Link component={routerLink} to='/administracion'>
+        <ListItemText primary="Administracion" />
       </Link>
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
-      <Link component={routerLink} to='/ListTipoDoc'>
-      <ListItemText primary="Reports" />
+      <Link component={routerLink} to='/modulos'>
+      <ListItemText primary="Modulos" />
       </Link>
-    </ListItem>
-
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
     </ListItem>
   </div>
 );

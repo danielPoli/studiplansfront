@@ -2,9 +2,7 @@ import React, { Compoenet } from 'react';
 
 class EditDocentes extends Compoenet{
 
-    constructor(){
-        super();
-    }
+    
 
     render(){
         return(

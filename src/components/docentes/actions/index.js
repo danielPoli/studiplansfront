@@ -1,4 +1,4 @@
-import { LIST_DOCENTE, ADD_DOCENTE, ADD_MATERIAL, OBTENER_DOCENTE } from './types';
+import { LIST_DOCENTE, ADD_DOCENTE, ADD_MATERIAL, OBTENER_DOCENTE, OPEN_MODAL_DOCENTE,DELETE_DOCENTE } from './types';
 import axios from 'axios';
 import { API_URL } from '../../../constantsGlobal';
 
@@ -42,7 +42,6 @@ export const listAllDocentes = () => {
 };
 
 export const obtenerDocente = (id)=>{
-    debugger
     return(dispatch) =>{
         return axios.get(`${API_URL}/docentes/getTeacher/${id}`)
             .then(response =>{
@@ -61,9 +60,35 @@ export const obtenerDocenteSuceess = (data)=>{
     }
 }
 
+export const deleteDocente = (id)=>{
+    return(dispatch)=>{
+        return axios.delete(`${API_URL}/docentes/delteTeacher/${id}`)
+        .then(response =>{
+            dispatch(deleteDocenteSuccess(response.data))
+        })
+        .catch(error =>{
+            throw(error);
+        });
+    };
+};
+
+export const deleteDocenteSuccess =(data)=>{
+    return{
+        type: DELETE_DOCENTE,
+        payload:data
+    }
+}
+
 export const addMaterial = (material)=>{
     return {
         type: ADD_MATERIAL,
         payload: material
+    }
+}
+
+export const openModal=(open)=>{
+    return{
+        type: OPEN_MODAL_DOCENTE,
+        payload: open
     }
 }

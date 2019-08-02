@@ -1,0 +1,5 @@
+export const LIST_MODULOS = 'LIST_MODULOS';
+export const ADD_MODULO = 'ADD_MODULO';
+export const ADD_CONTENIDO = 'ADD_CONTENIDO';
+export const OPEN_MODAL_DOCENTE = 'OPEN_MODAL_DOCENTE';
+export const OBTENER_MODULO = 'OBTENER_MODULO';

@@ -1,0 +1,2 @@
+export const ADD_SEMESTRE = 'ADD_SEMESTRE';
+export const LIST_SEMESTRE = 'LIST_SEMESTRE';

@@ -9,7 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Grid, Divider } from '@material-ui/core';
 import MuiPaper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import {addMaterial} from './actions/index';
 import { connect } from 'react-redux';
 
 const Paper = withStyles(theme => ({
@@ -32,18 +31,13 @@ const TextField = withStyles(theme => ({
 
 }))(MuiTextField);
 
-const AddButton = withStyles(() => ({
-  root: {
-    marginRight: 700
-  }
-}))(Button)
-
-class AddMaterial extends Component{
+class ProgramaModal extends Component{
 
   state={
 
-    descripcion:'',
-    link:'',
+    nombre:'',
+    codigo:'',
+    acto:'',
     open:false,
   }
 
@@ -68,10 +62,10 @@ class AddMaterial extends Component{
   handleAddMaterial = e =>{
     const {addMaterial} = this.props;
     e.preventDefault();
-    const material = {
+    const material = [{
       "descripcion":this.state.descripcion,
       "link_material_adicional":this.state.link
-    }
+    }]
     addMaterial(material);
     this.handleClose();
   }
@@ -79,11 +73,11 @@ class AddMaterial extends Component{
   render(){
     return(
       <React.Fragment>
-      <AddButton variant="outlined" color="primary" onClick={this.handleClickOpen}>
-        Agregar
-      </AddButton>
+      <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        Agregar programa
+      </Button>
       <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Agregar material docente</DialogTitle>
+        <DialogTitle id="form-dialog-title">Agregar programa</DialogTitle>
         <DialogContent>
           <Divider/>
           <Grid container spacing={2}>
@@ -92,23 +86,33 @@ class AddMaterial extends Component{
             <TextField              
               margin="dense"
               id="name"
-              label="Descripción"
-              name="descripcion"
+              label="Nombre"
+              name="nombre"
               margin="dense"
               variant="outlined"
               onChange={this.handleChange}
-              value={this.state.descripcion}
+              value={this.state.nombre}
               
             />
             <TextField              
               margin="dense"
               id="name"
-              label="Link material"
-              name="link"
+              label="Codigo"
+              name="codigo"
               margin="dense"
               variant="outlined"
               onChange={this.handleChange}
-              value={this.state.link}
+              value={this.state.codigo}
+            />
+            <TextField              
+              margin="dense"
+              id="name"
+              label="Acto administrativo"
+              name="acto"
+              margin="dense"
+              variant="outlined"
+              onChange={this.handleChange}
+              value={this.state.acto}
             />
               </Grid>            
           </Paper>
@@ -128,19 +132,10 @@ class AddMaterial extends Component{
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addMaterial: material =>{
-      dispatch(addMaterial(material));
-    }
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
 
-const mapStateToProps = state => {
-  console.log("stateMa", state);
-  return {
-      materialDocente: state.docentes,
-      docente: state.docentes.docente,
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(AddMaterial);
+//   };
+// };
+
+export default connect(null, null)(ProgramaModal);

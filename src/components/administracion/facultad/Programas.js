@@ -5,9 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MuiPaper from '@material-ui/core/Paper';
-import AddMaterial from './AddMaterialDialog';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import ProgramaModal from './ProgramaModal';
 
 const Paper = withStyles(theme => ({
     root: {
@@ -28,19 +28,14 @@ const Paper = withStyles(theme => ({
       },
   }))(MuiTable);
 
-class ListMaterial extends Component {
+class Programas extends Component {
 
-    constructor(props){
-        super(props)
-    }
 
     render() {
-        const { materialDocente, materialActualizar } = this.props;
-        
-        let materialList = materialDocente.listMaterial  != '' ? materialDocente.listMaterial: materialActualizar;
+        const { material } = this.props;
         return (
             <div >
-                <AddMaterial />
+                <ProgramaModal />
                 <Paper >
                     <Table >
                         <TableHead>
@@ -50,14 +45,14 @@ class ListMaterial extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {materialList.map(m => (
+                            {/* {material.map(m => (
                                 <TableRow key={m.descripcion}>
                                     <TableCell component="th" scope="row">
                                         {m.descripcion}
                                     </TableCell>
                                     <TableCell >{m.link_material_adicional}</TableCell>
                                 </TableRow>
-                            ))}
+                            ))} */}
                         </TableBody>
                     </Table>
                 </Paper>
@@ -74,8 +69,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        materialDocente: state.docentes,
+        material: state.docentes.listMaterial,
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListMaterial);
+export default connect(null, null)(Programas);

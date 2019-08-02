@@ -1,4 +1,4 @@
-import {ADD_TIPODOC, LIST_TIPODOC} from './../actions/types';
+import {ADD_TIPODOC, LIST_TIPODOC,ADD_FACULTAD} from './../actions/types';
 
 export default function tipoDocReducer(state=[], action){
     switch (action.type) {
@@ -7,6 +7,8 @@ export default function tipoDocReducer(state=[], action){
         case LIST_TIPODOC:
             const docs = action.tipoDocs;
             return {...state, docs};
+        case ADD_FACULTAD:
+            return[...state, action.payload];    
         default:
             return state;
     }

@@ -26,7 +26,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import { Link as routerLink, Route } from 'react-router-dom';
 import Docentes from './../components/docentes/Docentes';
 import TipoDocumento from './../components/administracion/TipoDocumento';
-import ListTipoDoc from './../components/administracion/ListTipoDoc';
+import Administracion from './../components/administracion/Administracion';
+import Modulos from './modulos/Modulos';
 
 
 const drawerWidth = 240;
@@ -162,8 +163,8 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
         <React.Fragment>
              <Route exact path="/docentes" component={Docentes}></Route>
-             <Route exact path="/tipodocumento" component={TipoDocumento}></Route>
-             <Route exact path="/ListTipoDoc" component={ListTipoDoc}></Route>
+             <Route exact path="/administracion" component={Administracion}></Route>
+             <Route exact path="/modulos" component={Modulos}></Route>
          </React.Fragment>            
         </Container>
       </main>
